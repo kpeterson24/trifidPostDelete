@@ -1,5 +1,6 @@
 // requires
 const express = require( 'express' );
+
 const app = express();
 // NEEDED FOR A POST (req.body)
 const bodyParser = require( 'body-parser' );
@@ -15,30 +16,10 @@ app.listen( port, ()=>{
     console.log( 'server up on:', port );
 }) //end server up
 
-// routes
-app.delete( '/messages/:index', ( req, res )=>{
-    console.log( 'in /messages delete:', req.params.index );
-    res.send( 'squeak' );
-}) //end delete
+// setup pur routers
 
-app.get( '/messages', ( req, res )=>{
-    console.log( 'in /messages GET' );
-    res.send( messages );
-}) // end essages
-
-app.post( '/messages', ( req, res )=>{
-    console.log( 'in /messages POST:', req.body );
-    messages.push( req.body );
-    console.log( messages );
-    res.sendStatus( 200 );
-}) // end messages POST
-
-app.get( '/test', ( req, res )=>{
-    console.log( '/test GET' );
-    res.send( 'ribbet' );
-}) //end test GET
-
-app.post( '/test', ( req, res )=>{
-    console.log( '/test POST:', req.body );
-    res.sendStatus( 200 );
-}) // end test POST
+// when requests come in for /messages send to messagesRouter
+const messagesRouter = require('./routers/messages_router');
+app.use('/messages', messagesRouter);
+const testingRouter = require('./routers/test_router');
+app.use('/test', testingRouter);
